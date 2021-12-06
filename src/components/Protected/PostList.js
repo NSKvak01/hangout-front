@@ -5,11 +5,14 @@ import Cookie from "js-cookie"
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CloseIcon from '@mui/icons-material/Close';
 import { Button} from '@mui/material'
+import jwtDecode from "jwt-decode"
+
 
 
 function PostList(props) {
-    const {text, user, timestamp, _id} = props
+    const {text, user, timestamp, _id, updateArray} = props
     const [join, setJoin] = useState("join")
+    const [username, setUsername] = useState("")
     const [clicked, setClicked] = useState(false)
     const baseURL = process.env.NODE_ENV==="development"
     ? "http://localhost:3000/api"
@@ -23,9 +26,10 @@ function PostList(props) {
                 user,
                 timestamp
             }
-            let result = await axios.post(baseURL+"/post/save-post", newPost, {
+            let result = await axios.put(baseURL+"/post/save-post", newPost, {
                 headers:{authorization:`Bearer ${cookie}`}
             })
+            updateArray()
             toast.success(`Have fun with ${user}!`);
             console.log(result)
         } catch (e) {
@@ -38,7 +42,29 @@ function PostList(props) {
             let newPost = {
                 _id,
             }
-            let result = await axios.post(baseURL+"/post/close-post", newPost, {
+            let result = await axios.put(baseURL+"/post/close-post", newPost, {
+                headers:{authorization:`Bearer ${cookie}`}
+            })
+            updateArray()
+            console.log(result)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+    async function saveUser(postId){
+        const cookie = Cookie.get("jwt-cookie")
+        let jwtDecodedToken = jwtDecode(cookie)
+        console.log(jwtDecodedToken.username)
+        try {
+            let userResult = await axios.get (baseURL+"/users/get-user-info", {
+                headers:{authorization:`Bearer ${cookie}`}
+            })
+            let userResult1 = userResult.data.payload._id
+            let newUser = {
+                joinedUsers:jwtDecodedToken.username,
+                userID: userResult1
+            }
+            let result = await axios.put(baseURL+`/users/join-user/${postId}`, newUser, {
                 headers:{authorization:`Bearer ${cookie}`}
             })
             console.log(result)
@@ -51,6 +77,7 @@ function PostList(props) {
         setClicked(true)
         setJoin("joined")
         savePost()
+        saveUser(_id)
     }
 
     return (

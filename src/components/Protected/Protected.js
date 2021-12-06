@@ -26,6 +26,7 @@ function Protected(props) {
       useEffect(async() => {
         updateArray()
         }, [])
+    
 
         async function updateArray(){
             try {
@@ -33,14 +34,14 @@ function Protected(props) {
                 let result = await axios.get(baseURL+"/post/get-all-posts", {headers:{authorization:`Bearer ${cookie}`}})
                 let savedList = await axios.get(baseURL+"/post/get-saved-posts", {headers:{ authorization:`Bearer ${cookie}`}
                 })
+                console.log("savedList:", savedList)
                 let closedList = await axios.get(baseURL+"/post/get-closed-posts", {headers:{ authorization:`Bearer ${cookie}`}
                 })
                 console.log("closedList:", closedList)
 
                 let showResult = result.data.filter((item)=>{
-                    if(savedList.data.post){
-                        const postFound = savedList.data.post.find(({_id})=> item._id === _id)
-                        console.log(postFound)
+                    if(savedList.data){
+                        const postFound = savedList.data.find(({_id})=> item._id === _id)
                         if(postFound){
                             return false
                         }
@@ -49,9 +50,8 @@ function Protected(props) {
                 })
 
                 let showResult1 = showResult.filter((item)=>{
-                    if(closedList.data.closedPost){
-                        const postFound = closedList.data.closedPost.find(({_id})=> item._id === _id)
-                        console.log(postFound)
+                    if(closedList.data){
+                        const postFound = closedList.data.find(({_id})=> item._id === _id)
                         if(postFound){
                             return false
                         }
@@ -80,6 +80,7 @@ function Protected(props) {
                                     user={item.user}
                                     timestamp={item.timestamp.toString().slice(0,10)}
                                     _id = {item._id}
+                                    updateArray={updateArray}
                                 />
                                 )
                             })}

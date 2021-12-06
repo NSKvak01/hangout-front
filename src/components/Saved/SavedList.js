@@ -5,21 +5,12 @@ import {Button} from "@material-ui/core"
 
 function SavedList(props) {
     const {_id} = props.item
-    const {fetchPost, text, user, timestamp, baseURL}=props
+    const {text, user, timestamp, baseURL, handleDelete, handleDeleteJoinedUser}=props
 
-    async function handleDelete(){
-        const cookie = Cookie.get("jwt-cookie")
-        try {
-            let deletedPost = await axios.delete(baseURL+`/post/delete-post/${_id}`, {
-                headers:{
-                    authorization:`Bearer ${cookie}`
-                }
-            })
-            fetchPost()
-        } catch (e) {
-            console.log(e);
-        }
-    }
+   function deleteOnClick(){
+    handleDelete(_id)
+    handleDeleteJoinedUser(_id)
+   }
 
     return (
         <div>
@@ -29,7 +20,7 @@ function SavedList(props) {
                     <div>{user}</div>
                     <div style={{fontSize:"14px", color:"grey", marginTop:"10px"}}>{timestamp.toString().slice(0,10)}</div>
                     <div style={{display:"flex", justifyContent:"flex-end"}}>
-                        <Button onClick={handleDelete} style={{border:"1px solid red", color:"red", fontSize:"10px"}}>Delete</Button>
+                        <Button onClick={()=>deleteOnClick()} style={{border:"1px solid red", color:"red", fontSize:"10px"}}>Delete</Button>
                     </div>  
                 </div>
             </li>

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import axios from "axios"
 import SavedList from './SavedList'
 import Cookie from "js-cookie"
+import jwtDecode from "jwt-decode"
 
 
 function Saved() {
@@ -23,9 +24,43 @@ function Saved() {
                     authorization:`Bearer ${cookie}`
                 }
             })
-            setSavedList(foundList.data.post)
+            setSavedList(foundList.data)
         } catch (e) {
             console.log(e)
+        }
+    }
+
+    async function handleDelete(id){
+        const cookie = Cookie.get("jwt-cookie")
+        try {
+            let deleted = {
+                _id:id
+            }
+            let deletedPost = await axios.put(baseURL+`/post/delete-post`, deleted, {
+                headers:{
+                    authorization:`Bearer ${cookie}`
+                }
+            })
+            fetchPost()
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async function handleDeleteJoinedUser(id){
+        const cookie = Cookie.get("jwt-cookie")
+        let jwtDecodedToken = jwtDecode(cookie)
+        try {
+            let deleted = {
+                username:jwtDecodedToken.username
+            }
+            let deletedPost = await axios.put(baseURL+`/users/delete-joined-user/${id}`, deleted, {
+                headers:{
+                    authorization:`Bearer ${cookie}`
+                }
+            })
+        } catch (e) {
+            console.log(e);
         }
     }
 
@@ -43,6 +78,8 @@ function Saved() {
                         fetchPost={fetchPost}
                         baseURL={baseURL}
                         timestamp={item.timestamp}
+                        handleDelete = {handleDelete}
+                        handleDeleteJoinedUser={handleDeleteJoinedUser}
                         />
                     )
                 })}
