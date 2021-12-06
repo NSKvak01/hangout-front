@@ -2,6 +2,8 @@ import React, {useState} from 'react'
 import {Button} from "@material-ui/core"
 import axios from 'axios'
 import Cookie from "js-cookie"
+import { toast } from 'react-toastify'
+
 
 
 function CreatePost() {
@@ -24,6 +26,9 @@ function CreatePost() {
                 headers:{authorization:`Bearer ${cookie}`}
             })
             setText("")
+            toast.success(`Post created`, {
+                position: toast.POSITION.TOP_CENTER
+              });
             console.log(createdPost)
         } catch (e) {
             console.log(e)

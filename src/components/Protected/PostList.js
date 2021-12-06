@@ -30,7 +30,9 @@ function PostList(props) {
                 headers:{authorization:`Bearer ${cookie}`}
             })
             updateArray()
-            toast.success(`Have fun with ${user}!`);
+            toast.success(`Have fun with ${user}!`, {
+                position: toast.POSITION.TOP_CENTER
+              });
             console.log(result)
         } catch (e) {
             console.log(e)

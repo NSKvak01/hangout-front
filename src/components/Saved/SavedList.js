@@ -2,14 +2,20 @@ import React, {useEffect} from 'react'
 import axios from "axios"
 import Cookie from "js-cookie"
 import {Button} from "@material-ui/core"
+import { toast } from 'react-toastify'
+
 
 function SavedList(props) {
     const {_id} = props.item
-    const {text, user, timestamp, baseURL, handleDelete, handleDeleteJoinedUser}=props
+    const {text, user, timestamp, baseURL, handleDelete, handleDeleteJoinedUser, fetchPost}=props
 
    function deleteOnClick(){
     handleDelete(_id)
     handleDeleteJoinedUser(_id)
+    toast.success(`Activity cancelled`, {
+        position: toast.POSITION.TOP_CENTER
+      });
+    fetchPost()
    }
 
     return (
@@ -20,7 +26,7 @@ function SavedList(props) {
                     <div>{user}</div>
                     <div style={{fontSize:"14px", color:"grey", marginTop:"10px"}}>{timestamp.toString().slice(0,10)}</div>
                     <div style={{display:"flex", justifyContent:"flex-end"}}>
-                        <Button onClick={()=>deleteOnClick()} style={{border:"1px solid red", color:"red", fontSize:"10px"}}>Delete</Button>
+                        <Button onClick={()=>deleteOnClick()} style={{border:"1px solid red", color:"red", fontSize:"10px"}}>Cancel</Button>
                     </div>  
                 </div>
             </li>

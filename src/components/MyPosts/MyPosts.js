@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import axios from "axios"
-import SavedList from './SavedList'
 import Cookie from "js-cookie"
 import jwtDecode from "jwt-decode"
+import MyPostList from './MyPostList'
 
 
-function Saved() {
-    const [savedList, setSavedList] = useState(null)
+function MyPosts() {
+    const [myList, setMyList] = useState(null)
     const baseURL = process.env.NODE_ENV==="development"
     ? "http://localhost:3000/api"
     :"DEPLOYED LOCATION"
@@ -15,57 +15,45 @@ function Saved() {
         fetchPost()
     }, [])
 
+    const sortPosts = (postArray) => {
+        const sorted =  postArray.sort(function(x, y){
+            console.log({x,y})
+            console.log(x.timestamp-y.timestamp)
+          return new Date(y.timestamp) - new Date(x.timestamp);
+        })
+        console.log({postArray})
+        return sorted;
+      }
 
     async function fetchPost(){
         const cookie = Cookie.get("jwt-cookie")
+        let jwtDecodedToken = jwtDecode(cookie)
+
         try {
-            let result = await axios.get(baseURL+"/post/get-all-posts", {headers:{authorization:`Bearer ${cookie}`}})
-            let foundList = await axios.get(baseURL+"/post/get-saved-posts", {
+            let allPosts = await axios.get(baseURL+"/post/get-all-posts", {
                 headers:{
                     authorization:`Bearer ${cookie}`
                 }
             })
-            let showResult = foundList.data.filter((item)=>{
-                console.log("foundList.data",foundList.data)
-                console.log(result.data)
-                if(foundList.data){
-                    const postFound = result.data.find(({_id})=> item._id === _id)
-                    if(postFound){
-                        return true
-                    }
+            let myPosts = allPosts.data.filter((item)=>{
+                if(item.user===jwtDecodedToken.username){
+                    return item
                 }
-                return false
+                
             })
-            console.log("showresult",showResult)
-            setSavedList(showResult)
+            setMyList(sortPosts(myPosts))
+            console.log(myList)
         } catch (e) {
             console.log(e)
         }
     }
 
-    async function handleDelete(id){
+    async function handleDeleteOtherJoinedUser(id, username){
         const cookie = Cookie.get("jwt-cookie")
         try {
             let deleted = {
+                username:username,
                 _id:id
-            }
-            let deletedPost = await axios.put(baseURL+`/post/delete-post`, deleted, {
-                headers:{
-                    authorization:`Bearer ${cookie}`
-                }
-            })
-            fetchPost()
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    async function handleDeleteJoinedUser(id){
-        const cookie = Cookie.get("jwt-cookie")
-        let jwtDecodedToken = jwtDecode(cookie)
-        try {
-            let deleted = {
-                username:jwtDecodedToken.username
             }
             let deletedPost = await axios.put(baseURL+`/users/delete-joined-user/${id}`, deleted, {
                 headers:{
@@ -78,13 +66,33 @@ function Saved() {
         }
     }
 
+    async function handleDeleteSavedPost(id, username){
+        const cookie = Cookie.get("jwt-cookie")
+        try {
+            let deleted = {
+                username:username,
+                _id:id
+            }
+            console.log(deleted)
+            let deletedPost = await axios.put(baseURL+`/post/delete-post-from-declined/${username}`, deleted, {
+                headers:{
+                    authorization:`Bearer ${cookie}`
+                }
+            })
+            fetchPost()
+            console.log(deletedPost)
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
 
     return (
         <React.Fragment>
-            <div style={{textAlign:"center", fontSize:"24px", fontWeight:"bold"}}>Activities you joined</div>
+            <div style={{textAlign:"center", fontSize:"24px", fontWeight:"bold"}}>My Posts</div>
             <ul>
-                {savedList?.map((item)=>{
-                    return (<SavedList
+                {myList?.map((item)=>{
+                    return (<MyPostList
                         key={item._id} 
                         item={item}
                         text={item.text}
@@ -92,8 +100,10 @@ function Saved() {
                         fetchPost={fetchPost}
                         baseURL={baseURL}
                         timestamp={item.timestamp}
-                        handleDelete = {handleDelete}
-                        handleDeleteJoinedUser={handleDeleteJoinedUser}
+                        handleDeleteOtherJoinedUser={handleDeleteOtherJoinedUser}
+                        joinedUsers={item.joinedUsers}
+                        handleDeleteSavedPost={handleDeleteSavedPost}
+                        _id={item._id}
                         />
                     )
                 })}
@@ -102,4 +112,4 @@ function Saved() {
     )
 }
 
-export default Saved
+export default MyPosts
