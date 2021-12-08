@@ -1,4 +1,4 @@
-import {createContext, useReducer} from 'react'
+import {createContext, useReducer, useState} from 'react'
 
 export const AuthContext = createContext({})
 const initialState = {
@@ -24,8 +24,9 @@ function reducer(state,action) {
 
 function AuthContextWrapper({children}){
 const [state, dispatch] = useReducer(reducer, initialState)
+const [otherUser, setOtherUser] = useState("")
 return(
-    <AuthContext.Provider value={{state,dispatch}}>
+    <AuthContext.Provider value={{state,dispatch,otherUser, setOtherUser}}>
         {children}
     </AuthContext.Provider>
 )

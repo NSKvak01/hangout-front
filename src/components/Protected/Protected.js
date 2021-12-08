@@ -27,6 +27,9 @@ function Protected(props) {
         updateArray()
         }, [])
     
+        const navigateToUser=()=>{
+            props.history.push("/user-profile")
+        }
 
         async function updateArray(){
             try {
@@ -81,6 +84,7 @@ function Protected(props) {
                                     timestamp={item.timestamp.toString().slice(0,10)}
                                     _id = {item._id}
                                     updateArray={updateArray}
+                                    navigateToUser = {navigateToUser}
                                 />
                                 )
                             })}

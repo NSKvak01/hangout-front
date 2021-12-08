@@ -5,7 +5,8 @@ import Cookie from "js-cookie"
 import jwtDecode from "jwt-decode"
 
 
-function Saved() {
+function Saved(props) {
+    const {navigateToUser} = props
     const [savedList, setSavedList] = useState(null)
     const baseURL = process.env.NODE_ENV==="development"
     ? "http://localhost:3000/api"
@@ -81,23 +82,28 @@ function Saved() {
 
     return (
         <React.Fragment>
-            <div style={{textAlign:"center", fontSize:"24px", fontWeight:"bold"}}>Activities you joined</div>
-            <ul>
-                {savedList?.map((item)=>{
-                    return (<SavedList
-                        key={item._id} 
-                        item={item}
-                        text={item.text}
-                        user={item.user}
-                        fetchPost={fetchPost}
-                        baseURL={baseURL}
-                        timestamp={item.timestamp}
-                        handleDelete = {handleDelete}
-                        handleDeleteJoinedUser={handleDeleteJoinedUser}
-                        />
-                    )
-                })}
-            </ul>
+            <div style={{display:"flex", justifyContent:"center"}}>
+            <div style={{display:"flex",flexDirection:"column", justifyContent:"flex-start", alignItems:"flex-start",  marginBottom:"10px"}}>
+                <div style={{textAlign:"center",fontSize:"24px", fontWeight:"bold", marginLeft:"0px", marginBottom:"20px"}}>Activities I joined</div>
+                <ul style={{marginLeft:"-40px"}}>
+                    {savedList?.map((item)=>{
+                        return (<SavedList
+                            key={item._id} 
+                            item={item}
+                            text={item.text}
+                            user={item.user}
+                            fetchPost={fetchPost}
+                            baseURL={baseURL}
+                            timestamp={item.timestamp}
+                            handleDelete = {handleDelete}
+                            handleDeleteJoinedUser={handleDeleteJoinedUser}
+                            navigateToUser = {navigateToUser}
+                            />
+                        )
+                    })}
+                </ul>
+            </div>
+            </div>
         </React.Fragment>
     )
 }

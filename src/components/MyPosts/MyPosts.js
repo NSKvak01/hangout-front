@@ -5,7 +5,8 @@ import jwtDecode from "jwt-decode"
 import MyPostList from './MyPostList'
 
 
-function MyPosts() {
+function MyPosts(props) {
+    const {navigateToUser} = props
     const [myList, setMyList] = useState(null)
     const baseURL = process.env.NODE_ENV==="development"
     ? "http://localhost:3000/api"
@@ -89,25 +90,30 @@ function MyPosts() {
 
     return (
         <React.Fragment>
-            <div style={{textAlign:"center", fontSize:"24px", fontWeight:"bold"}}>My Posts</div>
-            <ul>
-                {myList?.map((item)=>{
-                    return (<MyPostList
-                        key={item._id} 
-                        item={item}
-                        text={item.text}
-                        user={item.user}
-                        fetchPost={fetchPost}
-                        baseURL={baseURL}
-                        timestamp={item.timestamp}
-                        handleDeleteOtherJoinedUser={handleDeleteOtherJoinedUser}
-                        joinedUsers={item.joinedUsers}
-                        handleDeleteSavedPost={handleDeleteSavedPost}
-                        _id={item._id}
-                        />
-                    )
-                })}
-            </ul>
+            <div style={{display:"flex", justifyContent:"center"}}>
+                <div style={{display:"flex",flexDirection:"column", justifyContent:"flex-start", alignItems:"flex-start",  margin:0}}>
+                    <div style={{textAlign:"center", fontSize:"24px", fontWeight:"bold", marginLeft:"0px", marginBottom:"20px"}}>My Posts</div>
+                    <ul style={{marginLeft:"-40px"}}>
+                        {myList?.map((item)=>{
+                            return (<MyPostList
+                                key={item._id} 
+                                item={item}
+                                text={item.text}
+                                user={item.user}
+                                fetchPost={fetchPost}
+                                baseURL={baseURL}
+                                timestamp={item.timestamp}
+                                handleDeleteOtherJoinedUser={handleDeleteOtherJoinedUser}
+                                joinedUsers={item.joinedUsers}
+                                handleDeleteSavedPost={handleDeleteSavedPost}
+                                _id={item._id}
+                                navigateToUser={navigateToUser}
+                                />
+                            )
+                        })}
+                    </ul>
+                </div>
+            </div>
         </React.Fragment>
     )
 }

@@ -64,7 +64,6 @@ function Auth(props) {
                 setConfirmPasswordErrorMessage(``)
             }
         }
-       console.log(password, confirmPassword)
     }, [password, confirmPassword])
 
     function handleOnFocus(){
@@ -139,18 +138,18 @@ function Auth(props) {
         clearFirstNameInput()
         clearLastNameInput()
         setResponse(null)
-        props.history.push('/login')
+        props.history.push('/interests')
     }
     
     if(response ==="Success login"){
         clearEmailUsernameInput()
         clearPasswordLoginInput()
         setResponse(null)
+        if(checkIfCookieExists()){
+            props.history.push("/protected")
+        }
     }
 
-    if(checkIfCookieExists()){
-        props.history.push("/protected")
-    }
 
     return (
         <Grid container spacing spacing={1} justifyContent="center">

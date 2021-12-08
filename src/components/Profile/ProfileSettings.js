@@ -10,7 +10,6 @@ import {Grid,
     Checkbox,
     FormControlLabel 
     } from "@material-ui/core"
-import MuiAlert from "@material-ui/lab/Alert"
 import { AuthContext } from '../../context/AuthContext'
 
 const useStyles = makeStyles((theme)=>({
@@ -21,8 +20,9 @@ const useStyles = makeStyles((theme)=>({
         }
     }
     }))
+    
 
-function Profile(props) {
+function ProfileSettings(props) {
     const classes = useStyles()
     const {dispatch} = useContext(AuthContext)
 
@@ -34,6 +34,10 @@ function Profile(props) {
     const cookie = Cookie.get("jwt-cookie")
     const [passwordType, setPasswordType] = useState("password")
     const [showPassword, setShowPassword] = useState(false)
+
+    const baseURL = process.env.NODE_ENV==="development"
+    ? "http://localhost:3000/api"
+    :"DEPLOYED LOCATION"
 
     async function logout(){
         dispatch({
@@ -67,7 +71,7 @@ function Profile(props) {
     
     async function handleUserInfo(){
         try {
-            let fetchUser = await axios.get("http://localhost:3000/api/users/get-user-info",{
+            let fetchUser = await axios.get(baseURL + "/users/get-user-info",{
                 headers:{
                     authorization:`Bearer ${cookie}`
                 }
@@ -224,4 +228,4 @@ function Profile(props) {
     )
 }
 
-export default Profile
+export default ProfileSettings
