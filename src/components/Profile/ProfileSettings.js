@@ -37,7 +37,7 @@ function ProfileSettings(props) {
 
     const baseURL = process.env.NODE_ENV==="development"
     ? "http://localhost:3000/api"
-    :"/"
+    :"/api/"
 
     async function logout(){
         dispatch({

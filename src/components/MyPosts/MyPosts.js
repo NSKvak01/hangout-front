@@ -10,7 +10,7 @@ function MyPosts(props) {
     const [myList, setMyList] = useState(null)
     const baseURL = process.env.NODE_ENV==="development"
     ? "http://localhost:3000/api"
-    :"/"
+    :"/api/"
 
     useEffect(() => {
         fetchPost()

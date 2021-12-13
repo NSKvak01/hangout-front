@@ -13,7 +13,7 @@ import { toast } from 'react-toastify'
 function UserInfo(props) {
     const baseURL = process.env.NODE_ENV==="development"
         ? "http://localhost:3000/api"
-        : "/"
+        : "/api/"
 
     const [age, handleAgeChange] = useChangeInputConfig("Age")
     const [location, handleLocationChange] = useChangeInputConfig("Location")

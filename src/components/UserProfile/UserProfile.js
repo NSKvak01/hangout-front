@@ -34,7 +34,7 @@ function UserProfile() {
 
     const baseURL = process.env.NODE_ENV==="development"
     ? "http://localhost:3000/api"
-    :"/"
+    :"/api/"
 
     const sortPosts = (postArray) => {
         const sorted =  postArray.sort(function(x, y){

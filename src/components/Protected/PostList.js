@@ -18,7 +18,7 @@ function PostList(props) {
     const {otherUser, setOtherUser} = useContext(AuthContext)
     const baseURL = process.env.NODE_ENV==="development"
     ? "http://localhost:3000/api"
-    :"/"
+    :"/api/"
     async function savePost(){
         const cookie = Cookie.get("jwt-cookie")
         try {
