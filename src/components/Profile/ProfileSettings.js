@@ -103,7 +103,7 @@ function ProfileSettings(props) {
     async function handleUpdate(event){
         event.preventDefault()
         try {
-            let result = await axios.put(baseURL+"users/update-user-profile", {
+            let result = await axios.put(baseURL+"/users/update-user-profile", {
                 firstName:firstName,
                 lastName:lastName,
                 username:username,
