@@ -46,7 +46,7 @@ function ProfileSettings(props) {
         Cookie.remove('jwt-cookie')
         props.history.push('/login')
         try {
-            let result = await axios.get('http://localhost:3000/api/users/logout')
+            let result = await axios.get(baseURL+'/users/logout')
         } catch (e) {
             console.log(e)
         }
@@ -54,7 +54,7 @@ function ProfileSettings(props) {
 
     async function handleDeleteUser(){
         try {
-            let deleteUser = await axios.delete("http://localhost:3000/api/users/delete-user",{
+            let deleteUser = await axios.delete(baseURL+"/users/delete-user",{
                 headers:{
                     authorization:`Bearer ${cookie}`
                 }
@@ -103,7 +103,7 @@ function ProfileSettings(props) {
     async function handleUpdate(event){
         event.preventDefault()
         try {
-            let result = await axios.put("http://localhost:3000/api/users/update-user-profile", {
+            let result = await axios.put(baseURL+"users/update-user-profile", {
                 firstName:firstName,
                 lastName:lastName,
                 username:username,
@@ -121,7 +121,7 @@ function ProfileSettings(props) {
                 Cookie.remove('jwt-cookie')
                 props.history.push('/login')
                 try {
-                    let result = await axios.get('http://localhost:3000/api/users/logout')
+                    let result = await axios.get(baseURL+'/users/logout')
                 } catch (e) {
                     console.log(e)
                 }
