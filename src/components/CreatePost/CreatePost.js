@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 function CreatePost() {
     const baseURL = process.env.REACT_APP_ENV==="development"
     ? "http://localhost:3000/api"
-    :"/api"
+    :"/"
 
     const [text, setText] = useState("")
     function textOnChange(e){

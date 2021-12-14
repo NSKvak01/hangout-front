@@ -11,7 +11,7 @@ function Protected(props) {
     const [postArray, setPostArray] = useState([])
     const baseURL = process.env.REACT_APP_ENV==="development"
     ? "http://localhost:3000/api"
-    :"/api"
+    :"/"
 
     const sortPosts = (postArray) => {
         const sorted =  postArray.sort(function(x, y){

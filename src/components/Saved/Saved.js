@@ -10,7 +10,7 @@ function Saved(props) {
     const [savedList, setSavedList] = useState(null)
     const baseURL = process.env.REACT_APP_ENV==="development"
     ? "http://localhost:3000/api"
-    :"/api"
+    :"/"
 
     useEffect(() => {
         fetchPost()

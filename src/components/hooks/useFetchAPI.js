@@ -4,7 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 function useFetchAPI(url){
     const baseURL = process.env.REACT_APP_ENV==="development"
     ? "http://localhost:3000/api"
-    :"/api"
+    :"/"
     
     const [isLoading, setIsLoading] = useState(false)
     const [response, setResponse] = useState(null)
