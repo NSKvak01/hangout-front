@@ -6,7 +6,7 @@ import Cookie from "js-cookie"
 function Bio(props) {
     const baseURL = process.env.NODE_ENV==="development"
     ? "http://localhost:3000/api"
-    :"/api/"
+    :"/api"
 
     const [text, setText] = useState("")
 
