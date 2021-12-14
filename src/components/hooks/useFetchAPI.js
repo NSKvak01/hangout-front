@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios"
 import { AuthContext } from "../../context/AuthContext";
 function useFetchAPI(url){
-    const baseURL = process.env.NODE_ENV==="development"
+    const baseURL = process.env.REACT_APP_ENV==="development"
     ? "http://localhost:3000/api"
     :"/api"
     
@@ -65,7 +65,7 @@ function useFetchAPI(url){
 
             } catch (e) {
                 console.log(e)
-                setError(e.response.data.message)
+                setError(e.response)
                 setIsLoading(false)
                 handleMessageOpen()
             }

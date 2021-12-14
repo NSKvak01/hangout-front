@@ -4,7 +4,7 @@ import axios from 'axios'
 import Cookie from "js-cookie"
 
 function Bio(props) {
-    const baseURL = process.env.NODE_ENV==="development"
+    const baseURL = process.env.REACT_APP_ENV==="development"
     ? "http://localhost:3000/api"
     :"/api"
 

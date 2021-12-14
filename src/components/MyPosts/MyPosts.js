@@ -8,7 +8,7 @@ import MyPostList from './MyPostList'
 function MyPosts(props) {
     const {navigateToUser} = props
     const [myList, setMyList] = useState(null)
-    const baseURL = process.env.NODE_ENV==="development"
+    const baseURL = process.env.REACT_APP_ENV==="development"
     ? "http://localhost:3000/api"
     :"/api"
 

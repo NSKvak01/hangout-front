@@ -3,7 +3,7 @@ import InterestList from './InterestList'
 import {Button} from "@material-ui/core"
 import Cookie from "js-cookie"
 import axios from "axios"
-const baseURL = process.env.NODE_ENV==="development"
+const baseURL = process.env.REACT_APP_ENV==="development"
     ? "http://localhost:3000/api"
     : "/api"
 

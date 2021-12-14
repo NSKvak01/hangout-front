@@ -35,7 +35,7 @@ function ProfileSettings(props) {
     const [passwordType, setPasswordType] = useState("password")
     const [showPassword, setShowPassword] = useState(false)
 
-    const baseURL = process.env.NODE_ENV==="development"
+    const baseURL = process.env.REACT_APP_ENV==="development"
     ? "http://localhost:3000/api"
     :"/api"
 

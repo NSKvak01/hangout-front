@@ -16,7 +16,7 @@ function PostList(props) {
     const [username, setUsername] = useState("")
     const [clicked, setClicked] = useState(false)
     const {otherUser, setOtherUser} = useContext(AuthContext)
-    const baseURL = process.env.NODE_ENV==="development"
+    const baseURL = process.env.REACT_APP_ENV==="development"
     ? "http://localhost:3000/api"
     :"/api"
     async function savePost(){

@@ -9,7 +9,7 @@ import useChangeInputConfig from '../hooks/searchHooks'
 function Protected(props) {
     const [isLoading, setIsLoading] = useState(false)
     const [postArray, setPostArray] = useState([])
-    const baseURL = process.env.NODE_ENV==="development"
+    const baseURL = process.env.REACT_APP_ENV==="development"
     ? "http://localhost:3000/api"
     :"/api"
 

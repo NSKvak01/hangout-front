@@ -8,7 +8,7 @@ import jwtDecode from "jwt-decode"
 function Saved(props) {
     const {navigateToUser} = props
     const [savedList, setSavedList] = useState(null)
-    const baseURL = process.env.NODE_ENV==="development"
+    const baseURL = process.env.REACT_APP_ENV==="development"
     ? "http://localhost:3000/api"
     :"/api"
 
